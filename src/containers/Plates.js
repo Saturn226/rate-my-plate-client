@@ -9,6 +9,20 @@ import {getPlates} from '../actions/plates.js'
         super(props)
      }
 
+     handleOnClick = (event) => {
+        const vote = event.target.name
+        switch(vote){
+            case "upvote":
+                console.log('upvote')
+                return
+            case "downvote":
+                console.log('downvote')
+                return
+                default:
+                return
+        }
+     }
+
      componentDidMount(){
         this.props.getPlates()
      }
@@ -18,7 +32,11 @@ import {getPlates} from '../actions/plates.js'
             <div>
             <h3>Plates Component</h3>
             {this.props.plates.map(plate =>
-                <PlateCard plate={plate} key={plate.id}/>
+                <div key={plate.id}>
+                <PlateCard plate={plate} />
+                <button onClick={this.handleOnClick} name="upvote">+</button>
+                <button onClick={this.handleOnClick} name="downvote">-</button>
+                </div>
             )}
 
             <PlateForm/>
