@@ -1,5 +1,5 @@
 import {resetPlateForm} from './plateForm'
-const API_URL = process.env.REACT_APP_API_URL
+export const API_URL = process.env.REACT_APP_API_URL
 
 const setPlates = plates => {
     return {

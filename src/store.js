@@ -11,7 +11,7 @@ import plateFormData from './reducers/plateFormData'
 
 const reducers = combineReducers({
     plates: plates,
-    plateFormData
+    plateFormData,
 })
 
 const middleware = [thunk]

@@ -1,8 +1,6 @@
 const initialState = {
     name: '',
     description: '',
-    upvote: 0,
-    downvote: 0,
     img_url: ''
 } 
 export default (state = initialState, action) => {

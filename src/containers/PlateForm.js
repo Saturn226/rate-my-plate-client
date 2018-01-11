@@ -21,7 +21,7 @@ class PlateForm extends Component{
    }
    
     render(){
-        const {upvote, downvote, name, description, img_url} = this.props.plateFormData
+        const {name, description, img_url} = this.props.plateFormData
         return(
             <div>
                 Create a Plate
