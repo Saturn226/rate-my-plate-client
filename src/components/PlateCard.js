@@ -24,7 +24,7 @@ const ProgressBar = styled.div`
   
   background: lightblue;
   height:24px;
-  animation: ${fill} 5s linear infinite;
+  animation: ${fill} 5s linear 3;
 
 `
 
@@ -37,7 +37,7 @@ const ProgressBarWrapper = styled.div`
 
 
 const PlateCard = ({plate}) => (
-
+    //TODO: Make sure user is updated to current user
     <Wrapper>
 
         <h3>{plate.name}</h3>
@@ -45,7 +45,9 @@ const PlateCard = ({plate}) => (
         
     <TextContainer>
         <p>{plate.description}</p>
-        <Votes plate={plate}/>
+        
+        <Votes plate={plate} user={1}/>
+        <ProgressBar/>
       </TextContainer>
     </Wrapper>
 )

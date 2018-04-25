@@ -2,104 +2,52 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {UpvoteButton, DownvoteButton}from '../components/VoteButtons.js'
-import {upvotePlate, API_URL} from '../actions/plates.js'
-export default class Votes extends Component{
+import {upvotePlate, downvotePlate, getVotes} from '../actions/plates.js'
+class Votes extends Component{
     constructor(props){
         super(props)
         this.state = {
-            upvotes: '',
-            downvotes: '', 
+            upvotes: '0',
+            downvotes: '0', 
         }
     }
 
     componentDidMount(){
 
-       this.getVotes(this.props.plate)
+      // this.props.getVotes(this.props.plate)
         
     }
-
-
-
-    upvotePlate = (plate) =>{   
-            fetch(`${API_URL}/plates/${plate.id}/upvote`,{
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify({plate: plate})
-            })
-            .then(response => response.json())
-            .then(votes => {
-                this.setState({
-                    upvotes: votes.upvotes,
-                    downvotes: votes.downvotes
-                })
-             })
-            .catch(error => console.log(error))  
+  hasVoted = (plate, user) =>{
+        return this.props.plates.find((statePlate) => statePlate.id == plate.id)
+        .upvotes.find((votes)=>{
+            return votes.voter_id === user
+        })    
     }
 
-    downvotePlate = (plate) =>{   
-        fetch(`${API_URL}/plates/${plate.id}/downvote`,{
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({plate: plate})
-        })
-        .then(response => response.json())
-        .then(votes => {
-            this.setState({
-                upvotes: votes.upvotes,
-                downvotes: votes.downvotes
-            })
-         })
-        .catch(error => console.log(error))  
-}
 
-
-
-    getVotes = (plate) => {
-            fetch(`${API_URL}/plates/${plate.id}/votes`)
-            .then(response => response.json())
-            .then(votes => {
-               this.setState({
-                   upvotes: votes.upvotes,
-                   downvotes: votes.downvotes
-               })
-            })
-           .catch(error => console.log(error))
-    }
-    
- 
     handleClick = (e) => {
         const plate = this.props.plate
-        alert(e.target.name)
-        if (e.target.name === "upvote")
-            this.upvotePlate(plate)
-        if(e.target.name === "downvote")
-           this.downvotePlate(plate)
+        const user = this.props.user
+        if (e.target.className.includes("upvote") && !this.hasVoted(plate, user))
+            this.props.upvotePlate(plate)
+        if(e.target.className.includes("downvote"))
+           this.props.downvotePlate(plate)
     }
         
-    testEvent = () =>{
-        alert("Fired Event")
-    }
+   
     render(){
         const {upvotes, downvotes} = this.state
     
         return(
             <div>
-                <Upvote name="upvote" onClick={this.handleClick}>
-                        <i className="fa fa-thumbs-o-up"></i> 
+                <Upvote className="upvote" name="upvote" onClick={this.handleClick}>
+                        <i className="fa upvote fa-thumbs-o-up"></i> 
                 </Upvote>
                 Upvotes :{upvotes}
-                <Downvote name="downvote" onClick={this.handleClick}>
-                    <i className="fa fa-thumbs-o-down"></i>
+                <Downvote className="downvote" name="downvote" onClick={this.handleClick}>
+                    <i className="fa downvote fa-thumbs-o-down"></i>
                 </Downvote> 
                 Downvotes: {downvotes}
-
-
-                <button name="upvote" onClick={this.handleClick}></button>
-                <button name="downvote" onClick={this.handleClick}></button> 
             </div>
         )
     }
@@ -124,3 +72,7 @@ const Downvote = styled.button`
     font-size: 2em;
     color: white
 `
+const mapStateToProps = (state) =>{
+    return ({plates: state.plates})
+}
+export default connect(mapStateToProps, {getVotes,upvotePlate,downvotePlate})(Votes)

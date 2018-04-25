@@ -42,3 +42,66 @@ export const createPlate = plate =>{
         .catch(error => console.log(error))
      }
  }
+
+
+export const upvotePlate = (plate) =>{   
+
+    return dispatch => {
+        return fetch(`${API_URL}/plates/${plate.id}/upvote`,{
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+      //  body: JSON.stringify({plate: plate})
+    })
+        .then(response => response.json())
+        .then(upvote => {
+            dispatch({
+                type: 'UPVOTE_PLATE',
+                upvote,
+                plate
+            })
+            // this.setState({
+            //     upvotes: votes.upvotes,
+            //     downvotes: votes.downvotes
+            // })
+        })
+        .catch(error => console.log(error))  
+    }
+}
+
+export const downvotePlate = (plate) =>{ 
+return dispatch =>{
+fetch(`${API_URL}/plates/${plate.id}/downvote`,{
+    method: 'POST',
+    headers: {
+        'content-type': 'application/json'
+    },
+    body: JSON.stringify({plate: plate})
+})
+.then(response => response.json())
+.then(votes => {
+    this.setState({
+        upvotes: votes.upvotes,
+        downvotes: votes.downvotes
+    })
+ })
+.catch(error => console.log(error))  
+}
+}
+
+
+
+export const getVotes = (plate) => {
+    return dispatch =>{
+    return fetch(`${API_URL}/plates/${plate.id}/votes`)
+    .then(response => response.json())
+    .then(votes => {
+       this.setState({
+           upvotes: votes.upvotes,
+           downvotes: votes.downvotes
+       })
+    })
+   .catch(error => console.log(error))
+}
+}

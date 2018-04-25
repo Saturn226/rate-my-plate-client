@@ -32,8 +32,7 @@ import {getPlates} from '../actions/plates.js'
             <div>
             <h3>Plates Container</h3>
             {this.props.plates.map(plate =>
-
-                <PlateCard plate={plate} key={plate.id}/>
+                <PlateCard plate={plate} key={plate.id} />
              
             )}
 
@@ -44,10 +43,12 @@ import {getPlates} from '../actions/plates.js'
      }
  }
 
+
  const mapStateToProps = (state) => {
      return({
          plates: state.plates
      })
  }
+ 
     
 export default connect(mapStateToProps, {getPlates})(Plates)
