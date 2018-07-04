@@ -3,6 +3,7 @@ import Plates from './Plates.js'
 import './App.css'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import NewUser from './NewUser.js'
+import LoginPage from './LoginPage.js'
 
 
 export default class App extends Component{
@@ -14,6 +15,7 @@ export default class App extends Component{
                     App Container
                 <Switch>
                 <Route exact path="/" component={Plates}/>
+                <Route exact path="/login" component={LoginPage}/>
                 <Route exact path="/users/new" component={NewUser}/>
                 </Switch>
                 </div>
